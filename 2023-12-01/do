@@ -2,16 +2,40 @@
 
 f = File.read('./input.txt')
 
+# Ugly hash so don't have to stringify keys
+numbers = {
+  'one' => '1',
+  'two' =>  '2',
+  'three' =>  '3',
+  'four' =>  '4',
+  'five' =>  '5',
+  'six' =>  '6',
+  'seven' =>  '7',
+  'eight' =>  '8',
+  'nine' =>  '9',
+}
+
 out = f.split("\n").reduce(0) do|sum, line|
+  # Convert spelled-out numbers into actual numbers
+  old_line = line.clone
+  num_line = numbers.entries.map do |k,v|
+    line.include?(k) ? line.gsub!(k, v) : line
+  end.uniq.pop
+
+  # Digit logic
   first_num = line[/\d/]
   last_num = line.reverse[/\d/]
 
-  puts "#{sum} += (#{first_num} + #{last_num})"
+  old_sum = sum.clone
 
   sum += (first_num + last_num).to_i
+
+  puts "#{sum} = #{old_sum} + #{(first_num + last_num)} = (#{first_num} + #{last_num}) // #{old_line} => #{num_line}"
 
   sum
 end
 
+# XXX 59587 too high
+# XXX 53326 too loww
 puts out
 
