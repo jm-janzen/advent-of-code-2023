@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+s = File.read('./input.txt')
+
+o = s.split('').reduce(0) { |floor, char| floor += char.eql?('(') ? 1 : -1 }
+
+puts o
