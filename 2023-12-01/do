@@ -3,39 +3,64 @@
 f = File.read('./input.txt')
 
 # Ugly hash so don't have to stringify keys
-numbers = {
-  'one' => '1',
-  'two' =>  '2',
-  'three' =>  '3',
-  'four' =>  '4',
-  'five' =>  '5',
-  'six' =>  '6',
-  'seven' =>  '7',
-  'eight' =>  '8',
-  'nine' =>  '9',
+$numbers = {
+  'one'   => '1',
+  'two'   => '2',
+  'three' => '3',
+  'four'  => '4',
+  'five'  => '5',
+  'six'   => '6',
+  'seven' => '7',
+  'eight' => '8',
+  'nine'  => '9',
 }
 
-out = f.split("\n").reduce(0) do|sum, line|
-  # Convert spelled-out numbers into actual numbers
-  old_line = line.clone
-  num_line = numbers.entries.map do |k,v|
-    line.include?(k) ? line.gsub!(k, v) : line
-  end.uniq.pop
+def has_alpha_number?(s)
+  $numbers.keys.each do |k|
+    return true if s.include?(k)
+  end
 
-  # Digit logic
+  false
+end
+
+def handle_digit_line(line)
   first_num = line[/\d/]
   last_num = line.reverse[/\d/]
+  (first_num + last_num).to_i
+end
 
-  old_sum = sum.clone
+def handle_alpha_line(line)
+  found_numbers = []
+  $numbers.entries.each do |k, v|
+    if line.include?(k)
+      found_numbers << v
+    end
+  end
 
-  sum += (first_num + last_num).to_i
+  puts found_numbers.to_s
+  puts 'MEOW'
 
-  puts "#{sum} = #{old_sum} + #{(first_num + last_num)} = (#{first_num} + #{last_num}) // #{old_line} => #{num_line}"
+  11
+end
+
+out = f.split("\n").reduce(0) do|sum, line|
+  puts line
+
+  #
+  # NOTE OK new new idea: bail at first number,
+  # reverse, and repeat. No need to xform anything.
+
+  # Convert spelled-out numbers into actual numbers
+  if not has_alpha_number?(line)
+    sum += handle_digit_line(line)
+  else
+    sum += handle_alpha_line(line)
+  end
 
   sum
 end
 
 # XXX 59587 too high
 # XXX 53326 too loww
-puts out
+puts "Result: #{out}"
 
