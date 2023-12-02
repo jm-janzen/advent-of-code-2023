@@ -2,6 +2,25 @@
 
 s = File.read('./input.txt')
 
-o = s.split('').reduce(0) { |floor, char| floor += char.eql?('(') ? 1 : -1 }
+has_visited_basement = false
+char_idx = 0
+out = s.split('').reduce(0) do|floor, char|
+  if char.eql?('(')
+    floor += 1
+  else
+    floor -= 1
+  end
 
-puts o
+  char_idx += 1
+  if floor.negative? and !has_visited_basement
+    has_visited_basement = true
+    puts "char_idx: #{char_idx} takes Santa to basement"
+  end
+
+  floor
+end
+
+# 137 was too low!
+# Oh, was missing the last bracket :P
+
+puts out
