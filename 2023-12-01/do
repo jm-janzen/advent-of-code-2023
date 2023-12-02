@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+f = File.read('./input.txt')
+
+out = f.split("\n").reduce(0) do|sum, line|
+  first_num = line[/\d/]
+  last_num = line.reverse[/\d/]
+
+  puts "#{sum} += (#{first_num} + #{last_num})"
+
+  sum += (first_num + last_num).to_i
+
+  sum
+end
+
+puts out
+
