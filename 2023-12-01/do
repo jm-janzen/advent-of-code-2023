@@ -33,7 +33,11 @@ def extract_first_number(line)
       alpha_indices << {idx: idx, key: key}
     end
   end
-  first_alpha_idx = alpha_indices.min_by { |ind| ind[:idx] }[:idx]
+
+  # No alpha numbers
+  if !alpha_indices.empty?
+    first_alpha_idx = alpha_indices.min_by { |ind| ind[:idx] }[:idx]
+  end
 
   puts [alpha_indices, first_digit_idx , first_alpha_idx].to_s
   if first_digit_idx < first_alpha_idx
