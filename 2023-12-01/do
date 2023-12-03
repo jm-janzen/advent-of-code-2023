@@ -27,17 +27,19 @@ end
 #   1   = dig = digit
 #   one = alp = alpha
 def extract_first_number(line)
-  # TODO Get idx of first digit (always present)
+  # Get idx of first digit (always present)
   # and first alpha, and return first one in line
   first_digit_idx = line.index(/\d/)
   first_alpha_idx = 999
   $numbers.keys.each do |key|
 
-    #puts "Looking for index of #{key} in #{line}"
+    # XXX Returns lower number index first even if it appears later in string
+    puts "Looking for index of #{key} in #{line}"
     idx = line.index(key)
-    if !idx.nil?
+    if !idx.nil? && first_alpha_idx == 999
       puts "\tfound #{idx}"
       first_alpha_idx = idx
+      break
     end
   end
 
