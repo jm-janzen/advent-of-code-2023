@@ -37,7 +37,6 @@ def extract_first_number(line)
     first_alpha_idx = alpha_indices.min_by { |ind| ind[:idx] }[:idx]
   end
 
-  puts [alpha_indices, first_digit_idx , first_alpha_idx].to_s
   if first_digit_idx < first_alpha_idx
     line[first_digit_idx]
   else
@@ -51,11 +50,8 @@ def extract_last_number(line)
   last_alpha_idx = -999
   alpha_indices = []
   $numbers.keys.each do |key|
-
-    puts "Looking for index of #{key} in #{line}"
-    idx = line.index(key)
+    idx = line.rindex(key)
     if !idx.nil?
-      puts "\tfound #{idx}"
       alpha_indices << {idx: idx, key: key}
     end
   end
@@ -65,7 +61,6 @@ def extract_last_number(line)
     last_alpha_idx = alpha_indices.max_by { |ind| ind[:idx] }[:idx]
   end
 
-  puts [alpha_indices, last_digit_idx , last_alpha_idx].to_s
   if last_digit_idx > last_alpha_idx
     line[last_digit_idx]
   else
@@ -75,9 +70,8 @@ def extract_last_number(line)
 end
 
 out = f.split("\n").reduce(0) do|sum, line|
-  #
-  # NOTE OK new new idea: bail at first number,
-  # reverse, and repeat. No need to xform anything.
+  # bail at first number, reverse, and repeat.
+  # No need to transform anything.
 
   first_num = extract_first_number(line)
   last_num = extract_last_number(line)
@@ -89,8 +83,5 @@ out = f.split("\n").reduce(0) do|sum, line|
   sum
 end
 
-# XXX 59587 too high
-# XXX 53326 too loww
-# XXX 54041 "not the right answer" :( darn
 puts "Result: #{out}"
 
