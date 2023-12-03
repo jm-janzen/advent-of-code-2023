@@ -26,10 +26,8 @@ def extract_first_number(line)
   alpha_indices = []
   $numbers.keys.each do |key|
 
-    puts "Looking for index of #{key} in #{line}"
     idx = line.index(key)
     if !idx.nil?
-      puts "\tfound #{idx}"
       alpha_indices << {idx: idx, key: key}
     end
   end
@@ -49,7 +47,31 @@ def extract_first_number(line)
 end
 
 def extract_last_number(line)
-  '666'
+  last_digit_idx = line.rindex(/\d/) # Oh neat
+  last_alpha_idx = -999
+  alpha_indices = []
+  $numbers.keys.each do |key|
+
+    puts "Looking for index of #{key} in #{line}"
+    idx = line.index(key)
+    if !idx.nil?
+      puts "\tfound #{idx}"
+      alpha_indices << {idx: idx, key: key}
+    end
+  end
+
+  # No alpha numbers
+  if !alpha_indices.empty?
+    last_alpha_idx = alpha_indices.min_by { |ind| ind[:idx] }[:idx]
+  end
+
+  puts [alpha_indices, last_digit_idx , last_alpha_idx].to_s
+  if last_digit_idx > last_alpha_idx
+    line[last_digit_idx]
+  else
+    key = alpha_indices.min_by { |ind| ind[:idx] }[:key]
+    $numbers[key]
+  end
 end
 
 out = f.split("\n").reduce(0) do|sum, line|
