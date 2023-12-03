@@ -15,47 +15,55 @@ $numbers = {
   'nine'  => '9',
 }
 
-def has_alpha_number?(s)
-  $numbers.keys.each do |k|
-    return true if s.include?(k)
-  end
-
-  false
-end
-
-def handle_digit_line(line)
-  first_num = line[/\d/]
-  last_num = line.reverse[/\d/]
-  (first_num + last_num).to_i
-end
-
-def handle_alpha_line(line)
-  found_numbers = []
+def extract_alpha(line)
   $numbers.entries.each do |k, v|
     if line.include?(k)
-      found_numbers << v
+      return $numbers[line[/#{k}/]]
+    end
+  end
+end
+
+# Taxonomy
+#   1   = dig = digit
+#   one = alp = alpha
+def extract_first_number(line)
+  # TODO Get idx of first digit (always present)
+  # and first alpha, and return first one in line
+  first_digit_idx = line.index(/\d/)
+  first_alpha_idx = 999
+  $numbers.keys.each do |key|
+
+    #puts "Looking for index of #{key} in #{line}"
+    idx = line.index(key)
+    if !idx.nil?
+      puts "\tfound #{idx}"
+      first_alpha_idx = idx
     end
   end
 
-  puts found_numbers.to_s
-  puts 'MEOW'
+  puts [first_digit_idx , first_alpha_idx].to_s
+  if first_digit_idx < first_alpha_idx
+    line[first_digit_idx]
+  else
+    extract_alpha(line)
+  end
+end
 
-  11
+def extract_last_number(line)
+  '666'
 end
 
 out = f.split("\n").reduce(0) do|sum, line|
-  puts line
-
   #
   # NOTE OK new new idea: bail at first number,
   # reverse, and repeat. No need to xform anything.
 
-  # Convert spelled-out numbers into actual numbers
-  if not has_alpha_number?(line)
-    sum += handle_digit_line(line)
-  else
-    sum += handle_alpha_line(line)
-  end
+  first_num = extract_first_number(line)
+  last_num = extract_last_number(line)
+
+  sum += (first_num + last_num).to_i
+
+  puts "#{sum} += (#{first_num} + #{last_num}) // #{line}"
 
   sum
 end
