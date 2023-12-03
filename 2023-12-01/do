@@ -62,14 +62,14 @@ def extract_last_number(line)
 
   # No alpha numbers
   if !alpha_indices.empty?
-    last_alpha_idx = alpha_indices.min_by { |ind| ind[:idx] }[:idx]
+    last_alpha_idx = alpha_indices.max_by { |ind| ind[:idx] }[:idx]
   end
 
   puts [alpha_indices, last_digit_idx , last_alpha_idx].to_s
   if last_digit_idx > last_alpha_idx
     line[last_digit_idx]
   else
-    key = alpha_indices.min_by { |ind| ind[:idx] }[:key]
+    key = alpha_indices.max_by { |ind| ind[:idx] }[:key]
     $numbers[key]
   end
 end
@@ -91,5 +91,6 @@ end
 
 # XXX 59587 too high
 # XXX 53326 too loww
+# XXX 54041 "not the right answer" :( darn
 puts "Result: #{out}"
 
