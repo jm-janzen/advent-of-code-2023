@@ -15,14 +15,6 @@ $numbers = {
   'nine'  => '9',
 }
 
-def extract_alpha(line)
-  $numbers.entries.each do |k, v|
-    if line.include?(k)
-      return $numbers[line[/#{k}/]]
-    end
-  end
-end
-
 # Taxonomy
 #   1   = dig = digit
 #   one = alp = alpha
@@ -31,23 +23,24 @@ def extract_first_number(line)
   # and first alpha, and return first one in line
   first_digit_idx = line.index(/\d/)
   first_alpha_idx = 999
+  alpha_indices = []
   $numbers.keys.each do |key|
 
-    # XXX Returns lower number index first even if it appears later in string
     puts "Looking for index of #{key} in #{line}"
     idx = line.index(key)
-    if !idx.nil? && first_alpha_idx == 999
+    if !idx.nil?
       puts "\tfound #{idx}"
-      first_alpha_idx = idx
-      break
+      alpha_indices << {idx: idx, key: key}
     end
   end
+  first_alpha_idx = alpha_indices.min_by { |ind| ind[:idx] }[:idx]
 
-  puts [first_digit_idx , first_alpha_idx].to_s
+  puts [alpha_indices, first_digit_idx , first_alpha_idx].to_s
   if first_digit_idx < first_alpha_idx
     line[first_digit_idx]
   else
-    extract_alpha(line)
+    key = alpha_indices.min_by { |ind| ind[:idx] }[:key]
+    $numbers[key]
   end
 end
 
