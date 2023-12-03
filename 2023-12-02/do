@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+require './game'
+
+games = []
+File.read('./input.txt').split("\n").each do |line|
+  puts line
+
+  game_pat = /^Game\s(\d+):\s/
+  id = line.match(game_pat).captures.pop.to_i
+  sets = line.gsub(game_pat, '').split(';').map(&:strip)
+  games << game = Game.new(id: id, parts: sets)
+
+  puts game.possible? ? 'ya' : 'na'
+  puts '-'
+end
+
+#puts games
