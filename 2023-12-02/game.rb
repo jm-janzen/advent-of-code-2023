@@ -9,29 +9,25 @@ class Game
   def initialize(id:, parts:)
     @id = id
     @parts = parts.map { |part| Part.new(part) }
+    @minimums = cube_powah()
   end
 
-  def possible?()
-    # "only 12 red cubes, 13 green cubes, and 14 blue cubes"
+  # TODO 1. Figure out the fewest number of cubes
+  # of each colour to make the game possible
+  def cube_powah()
     is_possible = true
     @parts.each do |part|
-      if (part.cubes['green'] || -1) > 13
-        is_possible = false
-        break
-      elsif (part.cubes['blue'] || -1) > 14
-        is_possible = false
-        break
-      elsif (part.cubes['red'] || -1) > 12
-        is_possible = false
-        break
-      end
     end
 
     is_possible
   end
 
   def to_s
-    """id: #{@id} #{self.possible? ? 'OK' : 'IMPOSSIBLE' }"""
+    """id: #{@id}
+parts:
+\t#{@parts.map(&:to_s).join("\n\t")}
+minimums: #{ 'TODO' } # The lowest possible of each colour
+    """
   end
 end
 

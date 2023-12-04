@@ -13,10 +13,8 @@ File.read('./input.txt').split("\n").each do |line|
 end
 
 total = games.reduce(0) do |sum, game|
-  sum += game.possible? ? game.id : 0
-
+  # TODO 2. Multiply them together
   puts game
-  puts "#{sum} += #{game.possible?} ? #{game.id} : 0" if game.possible?
   sum
 end
 
