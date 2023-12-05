@@ -10,12 +10,12 @@ File.read('./input.txt').split("\n").each do |line|
   id = line.match(game_pat).captures.pop.to_i
   sets = line.gsub(game_pat, '').split(';').map(&:strip)
   games << game = Game.new(id: id, parts: sets)
+
+  puts game
 end
 
 total = games.reduce(0) do |sum, game|
-  # TODO 2. Multiply them together
-  puts game
-  sum
+  sum += game.power
 end
 
-puts total
+puts "Total: #{total}"

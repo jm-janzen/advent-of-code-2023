@@ -1,32 +1,33 @@
 #!/usr/bin/env ruby
 
-COLOURS = [ 'red', 'green', 'blue' ]
-
 class Game
-  attr_accessor :id, :parts
+  attr_accessor :id, :parts, :power
 
   # parts have cubes of various colos
   def initialize(id:, parts:)
     @id = id
     @parts = parts.map { |part| Part.new(part) }
-    @minimums = cube_powah()
+    @power = cube_powah()
   end
 
-  # TODO 1. Figure out the fewest number of cubes
+  # Figure out the fewest number of cubes
   # of each colour to make the game possible
   def cube_powah()
-    is_possible = true
+    maximums = { 'red' => 0, 'blue' => 0, 'green' => 0 }
     @parts.each do |part|
+      maximums['red'] = [part.cubes['red'] || 0, maximums['red']].max
+      maximums['blue'] = [part.cubes['blue'] || 0, maximums['blue']].max
+      maximums['green'] = [part.cubes['green'] || 0, maximums['green']].max
     end
 
-    is_possible
+    maximums['red'] * maximums['blue'] * maximums['green']
   end
 
   def to_s
     """id: #{@id}
 parts:
 \t#{@parts.map(&:to_s).join("\n\t")}
-minimums: #{ 'TODO' } # The lowest possible of each colour
+minimums: #{cube_powah}
     """
   end
 end
@@ -36,9 +37,6 @@ end
 class Part
   attr_accessor :cubes
   def initialize(s)
-    # TODO Merge into one obj
-    # Coming out [{"red"=>1}, {"blue"=>1}, {"green"=>4}]
-    # instead of single obj
     @cubes = s
       .split(',')
       .map(&:strip)
