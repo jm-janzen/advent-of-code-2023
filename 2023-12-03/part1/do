@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+load './grid'
+
+grid = Grid.new(File.read('./input.example.txt'))

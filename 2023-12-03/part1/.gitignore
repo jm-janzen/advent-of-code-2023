@@ -1,0 +1,4 @@
+vendor
+.bundle
+# Yeah yeah, but this is just for fun
+Gemfile.lock

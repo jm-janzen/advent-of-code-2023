@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+
+class Grid
+  def initialize(text)
+  end
+end
