@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-load './grid'
+load './tool-grid'
 
 grid = Grid.new(File.read('./input.example.txt'))
