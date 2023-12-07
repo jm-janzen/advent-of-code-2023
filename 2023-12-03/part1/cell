@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+
+class Cell
+  attr_accessor :pos, :char, :x, :y
+
+  def initialize(pos, char)
+    @pos = Point.new(*pos)
+    @x = @pos.x
+    @y = @pos.y
+    @char = char
+
+    @is_tool_part = char.match?(/^\d$/)
+    @is_empty_spc = char.match?(/^\.$/)
+  end
+
+  def to_s
+    @char
+  end
+
+  def inspect
+    [@pos.x, @pos.y, @char, @is_tool_part ? 'T' : nil].compact.to_s
+  end
+end
+
+class Point
+  attr_accessor :x, :y
+  def initialize(x, y)
+    (@x, @y) = [x, y]
+  end
+  def x
+    @x[1]
+  end
+  def y
+    @y[1]
+  end
+  def to_s
+    "(#{@x[1]},#{@y[1]})"
+  end
+end

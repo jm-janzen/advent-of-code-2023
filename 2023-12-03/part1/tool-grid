@@ -1,7 +1,26 @@
 #!/usr/bin/env ruby
 
 
+load './part'
+load './cell'
+
+
 class Grid
   def initialize(text)
+    parts = []
+    text.split("\n").each_with_index do |col, i|
+      _parts = col.scan(/\d+/)
+      col.split('').each_with_index do |char, j|
+        point = {x: i, y: j}
+        cell = Cell.new(point, char)
+
+        if not _parts.empty?
+          parts = _parts.map { |digits| Part.new(point, digits.length, digits) }
+        end
+
+        print cell
+      end
+      print " // #{parts.map(&:number)} \n"
+    end
   end
 end

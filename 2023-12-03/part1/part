@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+
+class Part
+  attr_accessor :post, :len, :number
+  def initialize(pos, len, number)
+    @pos = pos
+    @len = len
+    @number = number
+  end
+end
